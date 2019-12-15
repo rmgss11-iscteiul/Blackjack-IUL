@@ -1,3 +1,4 @@
+package main;
 import GUI.BlackjackGUI;
 import players.Bot;
 import players.Dealer;
