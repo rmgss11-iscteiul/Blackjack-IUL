@@ -28,9 +28,13 @@ public class Human extends Player {
 			break;
 			case("Split"):
 				split();
+			break;
+			case("Insurance"):
+//				insurance();
+				System.out.println("Botão ainda não foi implementado");
+			break;
 			}
-				
-			//fazer o resto dos butoes
+
 			refreshHumanGui();
 		}
 	};
@@ -56,9 +60,9 @@ public class Human extends Player {
 		split.addActionListener(buttonsListener);
 		insurance.addActionListener(buttonsListener);
 		while((!isplayFinish() && ldw==null)) {
-				try {
-					wait();
-				} catch (Exception e) {
+			try {
+				wait();
+			} catch (Exception e) {
 			}
 		}
 		stand.removeActionListener(buttonsListener);
