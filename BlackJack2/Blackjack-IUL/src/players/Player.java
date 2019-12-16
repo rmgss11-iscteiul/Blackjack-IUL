@@ -7,7 +7,7 @@ import java.util.concurrent.TimeUnit;
 import cards.Card;
 import cards.Card.Number;
 
-public abstract class Player extends Person {
+public abstract class Player extends Person { 
 
 	private int money, splitPoints, bet, splitMoney;
 	private Dealer dealer;

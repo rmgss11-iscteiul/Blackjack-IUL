@@ -16,7 +16,7 @@ public class Deck {
 			for (Card.Suit suit : Card.Suit.values())
 				for (Card.Number number : Card.Number.values())
 					cards.add(new Card(number, suit));
-//					 cards.add(new Card(Number.FIVE,suit));
+//					cards.add(new Card( Number.FIVE,suit));
 	}
 
 	public Card removeCard() {

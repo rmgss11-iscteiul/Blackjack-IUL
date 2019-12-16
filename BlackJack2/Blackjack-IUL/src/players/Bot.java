@@ -4,7 +4,7 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import cards.Card;
-
+ 
 public class Bot extends Player {
 	public Random r;
 	

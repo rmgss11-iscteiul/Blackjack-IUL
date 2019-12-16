@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import cards.Card;
 
-public abstract class Person {
+public abstract class Person { 
 	ArrayList<Card> hand;
 	private int points;
 	private String name;

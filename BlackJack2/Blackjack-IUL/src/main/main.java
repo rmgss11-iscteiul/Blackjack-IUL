@@ -8,7 +8,7 @@ import players.Bot;
 import players.Dealer;
 import players.Human;
 
-public class main {
+public class main { 
 
 	private static String name() {
 		JTextField text = new JTextField();

@@ -7,7 +7,7 @@ import GUI.BlackjackGUI;
 import cards.Card;
 import cards.Deck;
 
-public class Dealer extends Person{
+public class Dealer extends Person{ 
 	private Deck deck;
 	private ArrayList <Player> players;
 //	private int playersinGame;

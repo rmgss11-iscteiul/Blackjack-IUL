@@ -9,7 +9,7 @@ import javax.swing.JTextField;
 
 import cards.Card;
 
-public class Human extends Player {
+public class Human extends Player { 
 
 	ActionListener buttonsListener=new ActionListener() {
 
