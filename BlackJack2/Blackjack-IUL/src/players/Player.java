@@ -198,12 +198,10 @@ public abstract class Player extends Person {
 	
 	public void lose() {
 		this.ldw=loseDrawWin.LOSE;
-//		dealer.addLoser(); WHAT IS THIS FOR???
+		dealer.addLoser();
 		bet=0;
 	}
 	public void splitLose() {
-//		this.ldw=loseDrawWin.LOSE;
-//		dealer.addLoser(); WHAT IS THIS FOR???
 		splitldw=loseDrawWin.LOSE;
 		splitMoney=0;
 	}

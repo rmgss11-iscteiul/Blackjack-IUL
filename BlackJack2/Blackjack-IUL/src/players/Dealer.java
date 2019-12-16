@@ -98,7 +98,7 @@ public class Dealer extends Person{
 	}
 	
 	public void endRound() {
-		if(playersinGame>0) {
+//		if(playersinGame>0) { // deixa de fazer sentido quando temos o split
 			this.addCard(hiddenCard);
 			hiddenCard = null;
 			//			dealer vira carta ao contrario
@@ -108,7 +108,7 @@ public class Dealer extends Person{
 			for(Player player:players) {
 				if(player.ldw==null) {
 					if((super.getPoints() < player.getSplitPoints() || super.getPoints()>21) && player.isSplitHandFinish()) {
-						player.winSplit();
+						player.winSplit();//basta um destes
 						player.endSplit();
 					}else if(super.getPoints()==player.getSplitPoints() && player.isSplitHandFinish()) {
 						player.splitDraw();
@@ -127,7 +127,7 @@ public class Dealer extends Person{
 						player.lose();
 				}
 			}
-		}
+//		}
 		
 //		try {
 //			TimeUnit.SECONDS.sleep(3);
