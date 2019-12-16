@@ -127,6 +127,12 @@ public class Human extends Player {
 		super.addCard(card);
 		refreshHumanGui();
 	}
+	
+	@Override 
+	public void addSplitedCard(Card card) {
+		super.addSplitedCard(card);
+		refreshHumanGui();
+	}
 	@Override
 	public void newRound() {
 		super.newRound();

@@ -1,19 +1,19 @@
- package players;
+package players;
 
-import java.util.ArrayList; 
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import cards.Card;
 import cards.Card.Number;
 
-public abstract class Player extends Person { 
+public abstract class Player extends Person {
 
 	private int money, splitPoints, bet, splitMoney;
 	private Dealer dealer;
 	private boolean playFinish, splitHandFinish, handSplited;
 	private ArrayList<Card> splitHand;
-//	private boolean SplitBlackjack;
+	// private boolean SplitBlackjack;
 
 	public enum loseDrawWin {
 		WIN, DRAW, LOSE;
@@ -80,12 +80,12 @@ public abstract class Player extends Person {
 			if (money - splitMoney > 0 && splitHand.size() == 2) {
 				splitMoney *= 2;
 				hit();
-				try {
-					TimeUnit.MILLISECONDS.sleep(500);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+//				try {
+//					TimeUnit.MILLISECONDS.sleep(500);
+//				} catch (InterruptedException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
 				stand();
 			}
 
@@ -94,12 +94,12 @@ public abstract class Player extends Person {
 			if (money - bet > 0 && hand.size() == 2) {
 				bet *= 2;
 				hit();
-				try {
-					TimeUnit.MILLISECONDS.sleep(500);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+//				try {
+//					TimeUnit.MILLISECONDS.sleep(500);
+//				} catch (InterruptedException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
 				stand();
 			}
 		}
@@ -112,12 +112,16 @@ public abstract class Player extends Person {
 			handSplited = true;
 			if (twoEqualCards(super.getHand()) == 1) {
 				splitHand.add(super.getHand().remove(0));
-				splitHand.add(dealer.deal());
-				//sleep x seconds
-				super.addCard(dealer.deal());
+//				try {
+//					TimeUnit.SECONDS.sleep(1);
+					splitHand.add(dealer.deal());
+//					TimeUnit.SECONDS.sleep(1);
+					super.addCard(dealer.deal());
+//				} catch (InterruptedException e) {
+//				}
 				if (splitHand.get(1).number == Number.TEN || splitHand.get(1).number == Number.JACK
 						|| splitHand.get(1).number == Number.QUEEN || splitHand.get(1).number == Number.KING) {
-//					money += splitMoney * 2;
+					// money += splitMoney * 2;
 					splitHandFinish = true;
 					winSplit();
 					// SINTO QUE FALTAM AQUI COISAS
@@ -135,13 +139,29 @@ public abstract class Player extends Person {
 				// Acabar a rounda para o hand normal
 				stand();
 			} else {
-				splitHand.add(super.getHand().remove(0));
-				splitHand.add(dealer.deal());
-				super.addCard(dealer.deal());
+				Card c = super.getHand().remove(0);
+				addSplitedCard(c);
+//				try {
+//					TimeUnit.SECONDS.sleep(1);
+//				} catch (InterruptedException e) {
+//
+//				}
+				addSplitedCard(dealer.deal());
 				countSplitPoints(splitHand);
+//				try {
+//					TimeUnit.SECONDS.sleep(1);
+//				} catch (InterruptedException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+				super.addCard(dealer.deal());
 			}
 		}
 
+	}
+
+	public void addSplitedCard(Card card) {
+		splitHand.add(card);
 	}
 
 	private void countSplitPoints(ArrayList<Card> list) {
@@ -167,11 +187,11 @@ public abstract class Player extends Person {
 		if (hand.size() == 2 && splitPoints == 21)
 			blackjack = true;
 	}
-	
+
 	/**
 	 * 
 	 * @param list
-	 * @return 1:two aces;  0:two equal cards;  -1:not equal
+	 * @return 1:two aces; 0:two equal cards; -1:not equal
 	 */
 	private int twoEqualCards(ArrayList<Card> list) {
 
@@ -219,7 +239,7 @@ public abstract class Player extends Person {
 
 	public void lose() {
 		this.ldw = loseDrawWin.LOSE;
-//		dealer.addLoser();
+		// dealer.addLoser();
 		bet = 0;
 	}
 
@@ -229,19 +249,19 @@ public abstract class Player extends Person {
 	}
 
 	public void newRound() {
-		
+
 		splitHand.clear();
 		splitHandFinish = false;
 		handSplited = false;
 		splitldw = null;
-		
+
 		super.clearHand();
 		playFinish = false;
 		ldw = null;
 	}
 
-//	public void endSplit() {
-//	}
+	// public void endSplit() {
+	// }
 
 	public int getMoney() {
 		return money;
@@ -271,9 +291,9 @@ public abstract class Player extends Person {
 	// return splitHandCheck;
 	// }
 
-//	public void setEndPlay(boolean endPlay) {
-//		this.playFinish = endPlay;
-//	}
+	// public void setEndPlay(boolean endPlay) {
+	// this.playFinish = endPlay;
+	// }
 
 	public int getBet() {
 		return bet;

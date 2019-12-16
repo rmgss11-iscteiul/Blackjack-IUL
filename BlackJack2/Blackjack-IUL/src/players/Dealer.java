@@ -97,9 +97,21 @@ public class Dealer extends Person{
 	}
 	
 	public void endRound() {
+		try {
+			TimeUnit.SECONDS.sleep(1);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 			this.addCard(hiddenCard);
 			hiddenCard = null;
 			while(this.getPoints()<17) {
+				try {
+					TimeUnit.SECONDS.sleep(1);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				addCard(deck.removeCard());
 			}
 			for(Player player:players) {

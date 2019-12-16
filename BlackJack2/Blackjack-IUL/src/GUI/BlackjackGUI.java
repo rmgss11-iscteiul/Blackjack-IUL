@@ -233,7 +233,7 @@ public class BlackjackGUI {
 					JLabel cardLabel = new JLabel();
 					cardLabel.setIcon(cardImage);
 					splitHuman.add(cardLabel);
-					System.out.println(human.getSplitHand() + "Human split");
+//					System.out.println(human.getSplitHand() + "Human split");
 				}
 				for (Card card : human.getHand()) {
 					ImageIcon cardImage = new ImageIcon(imageFolder.getName() + "/" + card.toString() + ".png");
