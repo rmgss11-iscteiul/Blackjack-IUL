@@ -6,7 +6,6 @@ import java.util.concurrent.TimeUnit;
 import GUI.BlackjackGUI;
 import cards.Card;
 import cards.Deck;
-import players.Player.loseDrawWin;
 
 public class Dealer extends Person{
 	private Deck deck;

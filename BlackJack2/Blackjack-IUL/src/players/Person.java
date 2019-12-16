@@ -1,10 +1,8 @@
 package players;
 
-import java.awt.Point;
 import java.util.ArrayList;
 
 import cards.Card;
-import cards.Card.Suit;
 
 public abstract class Person {
 	ArrayList <Card> hand;

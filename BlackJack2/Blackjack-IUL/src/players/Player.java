@@ -1,9 +1,7 @@
 package players;
 
-import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 import cards.Card;

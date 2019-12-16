@@ -14,10 +14,10 @@ public class main {
 
 	public static void main(String[] args) {
 		Dealer dealer= new Dealer("Tozé");
-		//		Bot b1 = new Bot(dealer, "Bot1");
-		//		Bot b2 = new Bot(dealer, "Bot2");
-		//		Bot b3 = new Bot(dealer, "Bot3");
-		//		Bot b4 = new Bot(dealer, "Bot4");
+				Bot b1 = new Bot(dealer, "Bot1");
+				Bot b2 = new Bot(dealer, "Bot2");
+				Bot b3 = new Bot(dealer, "Bot3");
+				Bot b4 = new Bot(dealer, "Bot4");
 		JTextField name = new JTextField();
 		JOptionPane.showMessageDialog(null, name,"Name: ", JOptionPane.DEFAULT_OPTION);
 		String str= "Anonymous";
