@@ -1,7 +1,9 @@
- package players;
+package players;
 
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
+
+import javax.swing.JPanel;
 
 import cards.Card;
 
@@ -33,14 +35,18 @@ public class Bot extends Player {
 	public int betMoney() {
 		Random r = new Random();
 		double temp = r.nextDouble();
+		int bet = 0;
 		if (temp < 0.25) {
-			return (int) (getMoney() * 0.1);
+			bet= (int) (getMoney() * 0.1);
 		}
-		if (temp > 0.95) {
-			return (getMoney());
+		else if (temp > 0.95) {
+			bet= (getMoney());
 		} else {
-			return (int) ((temp / 2) * getMoney());
+			bet= (int) ((temp / 2) * getMoney());
 		}
+		if (bet == 0)
+			bet = 1;
+		return bet;
 	}
 
 	public boolean botFazerDouble() {
@@ -54,7 +60,7 @@ public class Bot extends Player {
 	@Override
 	public void play() {
 		super.play();
-		this.setBet(betMoney());
+		// this.setBet(betMoney());
 		while (!isplayFinish() && ldw == null) {
 			try {
 				TimeUnit.MILLISECONDS.sleep((int) (sleepTime() * 1000));
@@ -95,12 +101,18 @@ public class Bot extends Player {
 
 	@Override
 	public void bet() {
-		super.bet();
-		if (getBet() == 0) {
-			this.setBet(10);// r.nextInt(getMoney())); // VAREAVEL ALEATORIA
-			this.setMoney(this.getMoney() - getBet());
+		try {
+			TimeUnit.SECONDS.sleep(1);
+		} catch (InterruptedException e) {
 		}
-		refreshBotGui();
+		super.bet();
+		if (getMoney() == 0) {
+			getDealer().getGui().deleteBotPanel(this);
+		} else if (getBet() == 0) {
+			this.setBet(betMoney());
+			this.setMoney(this.getMoney() - getBet());
+			refreshBotGui();
+		}
 	}
 
 	@Override

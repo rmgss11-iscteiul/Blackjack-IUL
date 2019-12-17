@@ -1,4 +1,4 @@
- package players;
+package players;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -8,10 +8,11 @@ import GUI.BlackjackGUI;
 import cards.Card;
 import cards.Deck;
 
-public class Dealer extends Person{ 
+public class Dealer extends Person {
 	private Deck deck;
-	private ArrayList <Player> players;
-	//	private int playersinGame;
+	private ArrayList<Player> players;
+	private ArrayList<Player> losers;
+	// private int playersinGame;
 	private BlackjackGUI gui;
 	private Human human;
 	private Card hiddenCard;
@@ -19,46 +20,56 @@ public class Dealer extends Person{
 
 	public Dealer(String name) {
 		super(name);
-		this.deck=new Deck(numberOfDecks());
-		players= new ArrayList<Player>();
-		//		playersinGame=0;
-		human=null;
+		this.deck = new Deck(numberOfDecks());
+		players = new ArrayList<Player>();
+		losers = new ArrayList<Player>();
+		// playersinGame=0;
+		human = null;
 		hiddenCard = null;
 	}
 
 	public int numberOfDecks() {
-		Random random= new Random();
+		Random random = new Random();
 		double r = random.nextDouble();
-		if(r<0.1) {return 1;}
-		if(r>0.1 && r < 0.3) {return 2;}
-		if(r>0.3 && r < 0.7) {return 4;}
-		if(r>0.7 && r < 0.9) {return 6;}
-		else {return 8;}
+		if (r < 0.1) {
+			return 1;
+		}
+		if (r > 0.1 && r < 0.3) {
+			return 2;
+		}
+		if (r > 0.3 && r < 0.7) {
+			return 4;
+		}
+		if (r > 0.7 && r < 0.9) {
+			return 6;
+		} else {
+			return 8;
+		}
 	}
 
-	
 	public void registerPlayer(Player player) {
 		players.add(player);
-		//		playersinGame++;
+		// playersinGame++;
 	}
-	//	public void addLoser() {
-	//		playersinGame--;
-	//	}
+	// public void addLoser() {
+	// playersinGame--;
+	// }
 
 	public void start() {
-		while(true) { //por condicao de gameOver
+		while (true) { // por condicao de gameOver
 			collectBets();
-			startRound(); //player nao ter dinheiro ou carregar em acabar jogo
+			startRound(); // player nao ter dinheiro ou carregar em acabar jogo
 			round();
-			endRound();			
+			endRound();
 		}
 	}
 
 	public void collectBets() {
-		for(Player player: players) {
+		for (Player player : players) {
 			player.bet();
 		}
 	}
+
 	public void refreshDealer() {
 		this.gui.refreshDealer();
 	}
@@ -68,30 +79,30 @@ public class Dealer extends Person{
 		refreshDealer();
 	}
 
-
 	public void startRound() {
-		roundFinish =false;
+		roundFinish = false;
 		this.newRound();
-		for(Player player: players)
+		for (Player player : players)
 			player.newRound();
-		deck.removeCard();//queimar cartas
+		deck.removeCard();// queimar cartas
 		deck.removeCard();
-		for(int i=0;i<2;i++) {
-			for(Player player: players) { 
+		for (int i = 0; i < 2; i++) {
+			for (Player player : players) {
 				try {
 					TimeUnit.MILLISECONDS.sleep(1000);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
 				player.addCard(deck.removeCard());
-			}try {
+			}
+			try {
 				TimeUnit.MILLISECONDS.sleep(1000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			if(i==0)
+			if (i == 0)
 				this.addCard(deck.removeCard());
-			if(i==1) {
+			if (i == 1) {
 				this.hiddenCard = deck.removeCard();
 				refreshDealer();
 			}
@@ -107,7 +118,7 @@ public class Dealer extends Person{
 	}
 
 	public void round() {
-		for(Player player: players) 
+		for (Player player : players)
 			player.play();
 
 	}
@@ -117,16 +128,18 @@ public class Dealer extends Person{
 		super.addCard(card);
 		refreshDealer();
 	}
+
 	public void endRound() {
-		//ainad estiver algum que nao tenha perdido
+		removeLosers();
+		// ainad estiver algum que nao tenha perdido
 		boolean anyPlayerInGame = false;
-		for(Player p: players)  {
-			if(p.ldw==null || (p.splitldw == null && p.isHandSplited())) {
+		for (Player p : players) {
+			if (p.ldw == null || (p.splitldw == null && p.isHandSplited())) {
 				anyPlayerInGame = true;
 				break;
 			}
 		}
-		if(anyPlayerInGame) {
+		if (anyPlayerInGame) {
 			try {
 				TimeUnit.SECONDS.sleep(1);
 			} catch (InterruptedException e) {
@@ -135,7 +148,7 @@ public class Dealer extends Person{
 			}
 			this.addCard(hiddenCard);
 			hiddenCard = null;
-			while(this.getPoints()<17) { // so precisa de tirar cartas se ainda houver jogadores em jogo
+			while (this.getPoints() < 17) { // so precisa de tirar cartas se ainda houver jogadores em jogo
 				try {
 					TimeUnit.SECONDS.sleep(1);
 				} catch (InterruptedException e) {
@@ -144,51 +157,53 @@ public class Dealer extends Person{
 				}
 				addCard(deck.removeCard());
 			}
-			for(Player player:players) {
-				if(player.ldw==null) {
-					if(player.blackjack==true) {
-						if(super.blackjack==true)
+			for (Player player : players) {
+				if (player.ldw == null) {
+					if (player.blackjack == true) {
+						if (super.blackjack == true)
 							player.draw();
 						else
 							player.win();
-						
+
 					}
-					if((super.getPoints() < player.getSplitPoints() || super.getPoints()>21) && player.isSplitHandFinish()) {
-						player.winSplit();//basta um destes
-						//						player.endSplit();
-					}else if(super.getPoints()==player.getSplitPoints() && player.isSplitHandFinish()) {
+					if ((super.getPoints() < player.getSplitPoints() || super.getPoints() > 21)
+							&& player.isSplitHandFinish()) {
+						player.winSplit();// basta um destes
+						// player.endSplit();
+					} else if (super.getPoints() == player.getSplitPoints() && player.isSplitHandFinish()) {
 						player.splitDraw();
-						//						player.endSplit();					
-					}
-					else if(super.getPoints()> player.getSplitPoints() && player.isSplitHandFinish()) {
+						// player.endSplit();
+					} else if (super.getPoints() > player.getSplitPoints() && player.isSplitHandFinish()) {
 						player.splitLose();
-						//						player.endSplit();						
-					}			
-					if((super.getPoints()<player.getPoints() || super.getPoints()>21) && player.isplayFinish()) {
-						player.win();						
+						// player.endSplit();
 					}
-					else if(super.getPoints()==player.getPoints() && player.isplayFinish()) {
-						if(super.blackjack==true)
+					if ((super.getPoints() < player.getPoints() || super.getPoints() > 21) && player.isplayFinish()) {
+						player.win();
+					} else if (super.getPoints() == player.getPoints() && player.isplayFinish()) {
+						if (super.blackjack == true)
 							player.lose();
 						else
-							player.draw();						
-					}
-					else if(super.getPoints()> player.getPoints() && player.isplayFinish())
+							player.draw();
+					} else if (super.getPoints() > player.getPoints() && player.isplayFinish())
 						player.lose();
 				}
 			}
 		}
 		super.blackjack = false;
-		hiddenCard=null;
-		roundFinish=true;
+		hiddenCard = null;
+		roundFinish = true;
 		human.refreshHumanGui();
+	}
+	
+	public void removeLosers() {
+		players.removeAll(losers);
 	}
 
 	public Human getHuman() {
-		if(human == null)
-			for(Player temp: players)
-				if(temp instanceof Human)
-					human=(Human) temp;
+		if (human == null)
+			for (Player temp : players)
+				if (temp instanceof Human)
+					human = (Human) temp;
 		return human;
 	}
 
@@ -212,13 +227,13 @@ public class Dealer extends Person{
 		this.players = players;
 	}
 
-	//	public int getPlayersinGame() {
-	//		return playersinGame;
-	//	}
+	// public int getPlayersinGame() {
+	// return playersinGame;
+	// }
 	//
-	//	public void setPlayersinGame(int playersinGame) {
-	//		this.playersinGame = playersinGame;
-	//	}
+	// public void setPlayersinGame(int playersinGame) {
+	// this.playersinGame = playersinGame;
+	// }
 
 	public BlackjackGUI getGui() {
 		return gui;
@@ -239,8 +254,12 @@ public class Dealer extends Person{
 	public void setHiddenCard(Card hiddenCard) {
 		this.hiddenCard = hiddenCard;
 	}
+
+	public ArrayList<Player> getLosers() {
+		return losers;
+	}
+
+	public void setLosers(ArrayList<Player> losers) {
+		this.losers = losers;
+	}
 }
-
-
-
-

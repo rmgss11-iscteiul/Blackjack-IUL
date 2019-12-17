@@ -1,7 +1,8 @@
- package players;
+package players;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -12,7 +13,7 @@ import cards.Card;
 public class Human extends Player { 
 
 	private boolean isPlaying;
-	
+
 	ActionListener buttonsListener=new ActionListener() {
 
 		@Override
@@ -32,7 +33,7 @@ public class Human extends Player {
 				split();
 			break;
 			case("Insurance"):
-//				insurance();
+				//				insurance();
 				System.out.println("Botão ainda não foi implementado");
 			break;
 			}
@@ -101,6 +102,7 @@ public class Human extends Player {
 	}
 
 	@Override
+<<<<<<< HEAD
 	public void bet() {
 		super.bet();
 		JButton betButton = (JButton) getDealer().getGui().getButtons().getComponent(6);
@@ -116,39 +118,73 @@ public class Human extends Player {
 						setMoney(getMoney()-getBet());
 					}else {
 						JOptionPane.showMessageDialog(null, "Não pode apostar mais que o dinhiro que tem");
+=======
+	public void bet()  {
+		if(getMoney()==0) {
+			String[] buttons = { "Quit", "Reset Money"};    
+			int returnValue = JOptionPane.showOptionDialog(null, "Play Again?","Game Over",
+					JOptionPane.DEFAULT_OPTION,JOptionPane.QUESTION_MESSAGE, null, buttons, buttons[1]);
+			if(returnValue== 0) {//quit
+				getDealer().getGui().getFrame().dispatchEvent(new WindowEvent(getDealer().getGui().getFrame(), WindowEvent.WINDOW_CLOSING));
+			}else if(returnValue== 1) {//reset Money
+				setMoney((int) initialMoney());
+				refreshHumanGui();
+				bet();
+			}
+		}else{
+			JButton betButton = (JButton) getDealer().getGui().getButtons().getComponent(6);
+			getDealer().getGui().getFrame().getRootPane().setDefaultButton(betButton);
+				super.bet();
+				ActionListener betListener = new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						String betString= ((JTextField) getDealer().getGui().getButtons().getComponent(5)).getText();
+						try{
+							int betNumber= Integer.parseInt(betString);
+							if(betNumber>0) {
+								if(getMoney()-betNumber>=0) {
+									setBet(betNumber);
+									setMoney(getMoney()-getBet());
+								}else {
+									JOptionPane.showMessageDialog(null, "Não pode apostar mais que o dinheiro que tem");
+								}
+							}else
+								JOptionPane.showMessageDialog(null, "Introduza Números Positivos");
+						}
+						catch(NumberFormatException exception){
+							JOptionPane.showMessageDialog(null, "Introduza Numeros Inteiros");
+						}
+					}
+				};
+				betButton.addActionListener(betListener);
+				while(getBet()==0) {
+					try {
+						wait();
+					} catch (Exception e) {
+>>>>>>> branch 'master' of https://github.com/rmgss11-iscteiul/Blackjack-IUL.git
 					}
 				}
-				catch(NumberFormatException exception){
-					JOptionPane.showMessageDialog(null, "Introduza Numeros Inteiros");
-				}
-			}
-		});
-		while(getBet()==0) {
-			try {
-				wait();
-			} catch (Exception e) {
+				betButton.removeActionListener(betListener);
+				refreshHumanGui();
 			}
 		}
-		betButton.removeActionListener(buttonsListener);
-		refreshHumanGui();
-	}
 
-	@Override 
-	public void addCard(Card card) {
-		super.addCard(card);
-		refreshHumanGui();
-	}
-	
-	@Override 
-	public void addSplitedCard(Card card) {
-		super.addSplitedCard(card);
-		refreshHumanGui();
-	}
-	@Override
-	public void newRound() {
-		super.newRound();
-		refreshHumanGui();
-	}
+		@Override 
+		public void addCard(Card card) {
+			super.addCard(card);
+			refreshHumanGui();
+		}
 
-}
+		@Override 
+		public void addSplitedCard(Card card) {
+			super.addSplitedCard(card);
+			refreshHumanGui();
+		}
+		@Override
+		public void newRound() {
+			super.newRound();
+			refreshHumanGui();
+		}
+
+	}
 
