@@ -101,7 +101,7 @@ public class Human extends Player {
 	}
 
 	@Override
-	public void bet() {
+	public void bet()  {
 		super.bet();
 		JButton betButton = (JButton) getDealer().getGui().getButtons().getComponent(6);
 		betButton.addActionListener(new ActionListener() {
