@@ -105,6 +105,7 @@ public class Human extends Player {
 		refreshHumanGui();
 	}
 
+<<<<<<< HEAD
 //	@Override
 //<<<<<<< HEAD
 //	public void bet() {
@@ -132,10 +133,22 @@ public class Human extends Player {
 				getDealer().getGui().getFrame()
 						.dispatchEvent(new WindowEvent(getDealer().getGui().getFrame(), WindowEvent.WINDOW_CLOSING));
 			} else if (returnValue == 1) {// reset Money
+=======
+	@Override
+	public void bet()  {
+		if(getMoney()==0) {
+			String[] buttons = { "Quit", "Reset Money"};    
+			int returnValue = JOptionPane.showOptionDialog(null, "Play Again?","Game Over",
+					JOptionPane.DEFAULT_OPTION,JOptionPane.QUESTION_MESSAGE, null, buttons, buttons[1]);
+			if(returnValue== 0 || returnValue == JOptionPane.CLOSED_OPTION) {//quit
+				getDealer().getGui().getFrame().dispatchEvent(new WindowEvent(getDealer().getGui().getFrame(), WindowEvent.WINDOW_CLOSING));
+			}else if(returnValue== 1) {//reset Money
+>>>>>>> branch 'master' of https://github.com/rmgss11-iscteiul/Blackjack-IUL.git
 				setMoney((int) initialMoney());
 				refreshHumanGui();
 				bet();
 			}
+<<<<<<< HEAD
 		} else {
 			JButton betButton = (JButton) getDealer().getGui().getButtons().getComponent(6);
 			getDealer().getGui().getFrame().getRootPane().setDefaultButton(betButton);
@@ -144,7 +157,37 @@ public class Human extends Player {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					String betString = ((JTextField) getDealer().getGui().getButtons().getComponent(5)).getText();
+=======
+		}else{
+				super.bet();
+				JButton betButton = (JButton) getDealer().getGui().getButtons().getComponent(6);
+				getDealer().getGui().getFrame().getRootPane().setDefaultButton(betButton);
+				ActionListener betListener = new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						String betString= ((JTextField) getDealer().getGui().getButtons().getComponent(5)).getText();
+						try{
+							int betNumber= Integer.parseInt(betString);
+							if(betNumber>0) {
+								if(getMoney()-betNumber>=0) {
+									setBet(betNumber);
+									setMoney(getMoney()-getBet());
+								}else {
+									JOptionPane.showMessageDialog(null, "Não pode apostar mais que o dinheiro que tem");
+								}
+							}else
+								JOptionPane.showMessageDialog(null, "Introduza Números Positivos");
+						}
+						catch(NumberFormatException exception){
+							JOptionPane.showMessageDialog(null, "Introduza Numeros Inteiros");
+						}
+					}
+				};
+				betButton.addActionListener(betListener);
+				while(getBet()==0) {
+>>>>>>> branch 'master' of https://github.com/rmgss11-iscteiul/Blackjack-IUL.git
 					try {
+<<<<<<< HEAD
 						int betNumber = Integer.parseInt(betString);
 						if (betNumber > 0) {
 							if (getMoney() - betNumber >= 0) {
@@ -157,6 +200,10 @@ public class Human extends Player {
 							JOptionPane.showMessageDialog(null, "Introduza Números Positivos");
 					} catch (NumberFormatException exception) {
 						JOptionPane.showMessageDialog(null, "Introduza Numeros Inteiros");
+=======
+						wait();
+					} catch (Exception e) {
+>>>>>>> branch 'master' of https://github.com/rmgss11-iscteiul/Blackjack-IUL.git
 					}
 				}
 			};
