@@ -13,7 +13,6 @@ public abstract class Player extends Person {
 	private Dealer dealer;
 	private boolean playFinish, splitHandFinish, handSplited;
 	private ArrayList<Card> splitHand;
-	// private boolean SplitBlackjack;
 
 	public enum loseDrawWin {
 		WIN, DRAW, LOSE;
@@ -216,7 +215,7 @@ public abstract class Player extends Person {
 
 	public void play() {
 		if (blackjack == true) {
-			money += bet * 3;
+			money += Math.round(bet + (bet*1.5));
 			bet = 0;
 			playFinish = true;
 		}
@@ -264,10 +263,11 @@ public abstract class Player extends Person {
 		splitHandFinish = false;
 		handSplited = false;
 		splitldw = null;
-
+		blackjack=false;
 		super.clearHand();
 		playFinish = false;
 		ldw = null;
+		splitPoints=0;
 	}
 
 	// public void endSplit() {

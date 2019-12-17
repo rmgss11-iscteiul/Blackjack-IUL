@@ -134,6 +134,13 @@ public class Dealer extends Person{
 			}
 			for(Player player:players) {
 				if(player.ldw==null) {
+					if(player.blackjack==true) {
+						if(super.blackjack==true)
+							player.draw();
+						else
+							player.win();
+						
+					}
 					if((super.getPoints() < player.getSplitPoints() || super.getPoints()>21) && player.isSplitHandFinish()) {
 						player.winSplit();//basta um destes
 						//						player.endSplit();
@@ -148,13 +155,18 @@ public class Dealer extends Person{
 					if((super.getPoints()<player.getPoints() || super.getPoints()>21) && player.isplayFinish()) {
 						player.win();						
 					}
-					else if(super.getPoints()==player.getPoints() && player.isplayFinish())
-						player.draw();
+					else if(super.getPoints()==player.getPoints() && player.isplayFinish()) {
+						if(super.blackjack==true)
+							player.lose();
+						else
+							player.draw();						
+					}
 					else if(super.getPoints()> player.getPoints() && player.isplayFinish())
 						player.lose();
 				}
 			}
 		}
+		super.blackjack = false;
 		hiddenCard=null;
 		roundFinish=true;
 		human.refreshHumanGui();
