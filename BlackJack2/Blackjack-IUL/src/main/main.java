@@ -35,12 +35,12 @@ public class main {
 	}
 
 	public static void main(String[] args) {
-		int numberOfBots = numberOfBots();
+//		int numberOfBots = numberOfBots();
 		Dealer dealer = new Dealer("Tozé");
-		if (numberOfBots > 0) {Bot b1 = new Bot(dealer, "Bot1");}
-		if (numberOfBots > 1) {Bot b2 = new Bot(dealer, "Bot2");}
-		if (numberOfBots > 2) {Bot b3 = new Bot(dealer, "Bot3");}
-		if (numberOfBots > 3) {Bot b4 = new Bot(dealer, "Bot4");}
+//		if (numberOfBots > 0) {Bot b1 = new Bot(dealer, "Bot1");}
+//		if (numberOfBots > 1) {Bot b2 = new Bot(dealer, "Bot2");}
+//		if (numberOfBots > 2) {Bot b3 = new Bot(dealer, "Bot3");}
+//		if (numberOfBots > 3) {Bot b4 = new Bot(dealer, "Bot4");}
 		Human p1 = new Human(dealer, name());
 		BlackjackGUI gui = new BlackjackGUI(dealer);
 		dealer.start();

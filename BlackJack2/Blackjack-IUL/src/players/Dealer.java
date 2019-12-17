@@ -158,34 +158,35 @@ public class Dealer extends Person {
 				addCard(deck.removeCard());
 			}
 			for (Player player : players) {
-				if (player.ldw == null) {
-					if (player.blackjack == true) {
-						if (super.blackjack == true)
-							player.draw();
-						else
-							player.win();
-
+				if (player.ldw == null || player.isHandSplited()) {
+					if(player.getSplitPoints()<22) {
+						if ((super.getPoints() < player.getSplitPoints() || super.getPoints() > 21)
+								&& player.isSplitHandFinish()) {
+							player.winSplit();// basta um destes
+							// player.endSplit();
+						} else if (super.getPoints() == player.getSplitPoints() && player.isSplitHandFinish()) {
+							player.splitDraw();
+							// player.endSplit();
+						} else if (super.getPoints() > player.getSplitPoints() && player.isSplitHandFinish()) {
+							player.splitLose();
+							// player.endSplit();
+						}						
 					}
-					if ((super.getPoints() < player.getSplitPoints() || super.getPoints() > 21)
-							&& player.isSplitHandFinish()) {
-						player.winSplit();// basta um destes
-						// player.endSplit();
-					} else if (super.getPoints() == player.getSplitPoints() && player.isSplitHandFinish()) {
-						player.splitDraw();
-						// player.endSplit();
-					} else if (super.getPoints() > player.getSplitPoints() && player.isSplitHandFinish()) {
-						player.splitLose();
-						// player.endSplit();
-					}
-					if ((super.getPoints() < player.getPoints() || super.getPoints() > 21) && player.isplayFinish()) {
+					if ((super.getPoints() < player.getPoints() || super.getPoints() > 21) && player.isplayFinish())
 						player.win();
-					} else if (super.getPoints() == player.getPoints() && player.isplayFinish()) {
-						if (super.blackjack == true)
-							player.lose();
-						else
+					else if (super.getPoints() == player.getPoints() && player.isplayFinish())
 							player.draw();
-					} else if (super.getPoints() > player.getPoints() && player.isplayFinish())
+					else if (super.getPoints() > player.getPoints() && player.isplayFinish())
 						player.lose();
+					
+					
+					//Testa BlackJacks
+					if (super.blackjack == true && player.blackjack==true)
+						player.draw();
+					else if(super.blackjack==true && player.blackjack==false)
+						player.lose();
+					else if(super.blackjack==false && player.blackjack==true)
+						player.win();
 				}
 			}
 		}
