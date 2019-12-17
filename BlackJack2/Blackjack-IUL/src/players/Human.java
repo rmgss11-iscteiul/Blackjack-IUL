@@ -107,7 +107,7 @@ public class Human extends Player {
 			String[] buttons = { "Quit", "Reset Money"};    
 			int returnValue = JOptionPane.showOptionDialog(null, "Play Again?","Game Over",
 					JOptionPane.DEFAULT_OPTION,JOptionPane.QUESTION_MESSAGE, null, buttons, buttons[1]);
-			if(returnValue== 0) {//quit
+			if(returnValue== 0 || returnValue == JOptionPane.CLOSED_OPTION) {//quit
 				getDealer().getGui().getFrame().dispatchEvent(new WindowEvent(getDealer().getGui().getFrame(), WindowEvent.WINDOW_CLOSING));
 			}else if(returnValue== 1) {//reset Money
 				setMoney((int) initialMoney());
@@ -117,6 +117,7 @@ public class Human extends Player {
 		}else{
 				super.bet();
 				JButton betButton = (JButton) getDealer().getGui().getButtons().getComponent(6);
+				getDealer().getGui().getFrame().getRootPane().setDefaultButton(betButton);
 				ActionListener betListener = new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
