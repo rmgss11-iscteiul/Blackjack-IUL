@@ -144,13 +144,7 @@ public class BlackjackGUI {
 		JLabel points = new JLabel("Points: " + bot.getPoints());
 		JPanel cards = new JPanel();
 		JLabel ldw = new JLabel();
-		// name.setMinimumSize(new Dimension(cards.getMinimumSize().width,15));
-		// money.setMinimumSize(new Dimension(cards.getMinimumSize().width, 15));
-		// bet.setMinimumSize(new Dimension(cards.getMinimumSize().width,15));
-		// insurance.setMinimumSize(new Dimension(cards.getMinimumSize().width, 15));
-		// points.setMinimumSize(new Dimension(cards.getMinimumSize().width, 15));
 		cards.setMinimumSize(new Dimension(cards.getMinimumSize().width, 15)); // fixar a info do bot
-		// ldw.setMinimumSize(new Dimension(cards.getMinimumSize().width, 15));
 		name.setHorizontalAlignment(SwingConstants.LEFT);
 		money.setHorizontalAlignment(SwingConstants.LEFT);
 		// insurance.setHorizontalAlignment(SwingConstants.LEFT);
@@ -166,19 +160,6 @@ public class BlackjackGUI {
 		return botPanel;
 	}
 
-	// public void refreshGUI() {// actualiza a informação do jogador
-	// SwingUtilities.invokeLater(new Runnable() {
-	// @Override
-	// public void run() {
-	// for(Player player:dealer.getPlayers())
-	// if(player instanceof Bot)
-	// refreshBot((Bot) player);
-	// refreshHuman();
-	// refreshDealer();
-	//
-	// });
-	// }
-	// }
 	public void refreshBot(Bot player) {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
@@ -225,31 +206,33 @@ public class BlackjackGUI {
 			@Override
 			public void run() {
 				
-				if (human.isplayFinish() && (human.isSplitHandFinish() && human.isHandSplited()) || human.getBet() == 0) {
+				
+				
+				
+				if(!human.isPlaying()) {
 					buttons.getComponent(0).setEnabled(false); // stand
 					buttons.getComponent(1).setEnabled(false); // hit
 					buttons.getComponent(2).setEnabled(false); // doubleBet
-					buttons.getComponent(4).setEnabled(false);
-				} else {
+					buttons.getComponent(3).setEnabled(false); // split
+					buttons.getComponent(4).setEnabled(false); // insurance
+				}else {
 					buttons.getComponent(0).setEnabled(true); // stand
 					buttons.getComponent(1).setEnabled(true); // hit
 					if (human.getHand().size() == 2)
-						buttons.getComponent(2).setEnabled(true); // doubleBet
+					buttons.getComponent(2).setEnabled(true); // doubleBet
 					else
 						buttons.getComponent(2).setEnabled(false); // doubleBet
-				}
-				if (human.getHand().size() == 2 && !human.isplayFinish() && !human.isHandSplited()
-						&& Player.twoEqualCards(human.getHand()) != -1)
+					if (human.getHand().size() == 2 && !human.isplayFinish() && !human.isHandSplited()
+							&& Player.twoEqualCards(human.getHand()) != -1)
 					buttons.getComponent(3).setEnabled(true); // split
-				else
+					else
 					buttons.getComponent(3).setEnabled(false); // split
-
-				if (dealer.getHand().get(0).number.equals(Card.Number.ACE) && human.getInsurance() == 0
-						&& !dealer.getHand().isEmpty() && human.getHand().size() == 2 && !human.isHandSplited())
+					if(dealer.getHand().get(0).number.equals(Card.Number.ACE)&&human.getInsurance()==0 &&human.getHand().size() == 2 && !human.isHandSplited())
 					buttons.getComponent(4).setEnabled(true); // insurance
-				else
+					else
 					buttons.getComponent(4).setEnabled(false); // insurance
-
+					
+				}
 				if (dealer.isRoundFinish() || human.getBet() == 0) {
 					buttons.getComponent(5).setEnabled(true); // bet TextField
 					buttons.getComponent(6).setEnabled(true); // bet button
@@ -257,7 +240,7 @@ public class BlackjackGUI {
 					buttons.getComponent(5).setEnabled(false); // bet TextField
 					buttons.getComponent(6).setEnabled(false); // bet button
 				}
-				
+//				
 				
 				
 				

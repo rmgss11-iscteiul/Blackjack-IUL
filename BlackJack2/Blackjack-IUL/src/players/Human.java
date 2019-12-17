@@ -11,6 +11,8 @@ import cards.Card;
 
 public class Human extends Player { 
 
+	private boolean isPlaying;
+	
 	ActionListener buttonsListener=new ActionListener() {
 
 		@Override
@@ -49,6 +51,8 @@ public class Human extends Player {
 	@Override
 	public void	play() {
 		super.play();
+		isPlaying = true;
+		refreshHumanGui();
 		JButton stand = (JButton) getDealer().getGui().getButtons().getComponent(0);
 		JButton hit = (JButton) getDealer().getGui().getButtons().getComponent(1);
 		JButton doubleBet = (JButton) getDealer().getGui().getButtons().getComponent(2);
@@ -65,6 +69,7 @@ public class Human extends Player {
 			} catch (Exception e) {
 			}
 		}
+		isPlaying=false;
 		stand.removeActionListener(buttonsListener);
 		hit.removeActionListener(buttonsListener);
 		doubleBet.removeActionListener(buttonsListener);
@@ -73,6 +78,12 @@ public class Human extends Player {
 	}
 
 
+	public boolean isPlaying() {
+		return isPlaying;
+	}
+	public void setPlaying(boolean isPlaying) {
+		this.isPlaying = isPlaying;
+	}
 	@Override
 	public void win() {
 		super.win();
