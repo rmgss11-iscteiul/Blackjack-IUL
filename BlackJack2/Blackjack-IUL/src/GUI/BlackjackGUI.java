@@ -205,33 +205,31 @@ public class BlackjackGUI {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				
-				
-				
-				
-				if(!human.isPlaying()) {
+
+				if (!human.isPlaying()) {
 					buttons.getComponent(0).setEnabled(false); // stand
 					buttons.getComponent(1).setEnabled(false); // hit
 					buttons.getComponent(2).setEnabled(false); // doubleBet
 					buttons.getComponent(3).setEnabled(false); // split
 					buttons.getComponent(4).setEnabled(false); // insurance
-				}else {
+				} else {
 					buttons.getComponent(0).setEnabled(true); // stand
 					buttons.getComponent(1).setEnabled(true); // hit
 					if (human.getHand().size() == 2)
-					buttons.getComponent(2).setEnabled(true); // doubleBet
+						buttons.getComponent(2).setEnabled(true); // doubleBet
 					else
 						buttons.getComponent(2).setEnabled(false); // doubleBet
 					if (human.getHand().size() == 2 && !human.isplayFinish() && !human.isHandSplited()
 							&& Player.twoEqualCards(human.getHand()) != -1)
-					buttons.getComponent(3).setEnabled(true); // split
+						buttons.getComponent(3).setEnabled(true); // split
 					else
-					buttons.getComponent(3).setEnabled(false); // split
-					if(dealer.getHand().get(0).number.equals(Card.Number.ACE)&&human.getInsurance()==0 &&human.getHand().size() == 2 && !human.isHandSplited())
-					buttons.getComponent(4).setEnabled(true); // insurance
+						buttons.getComponent(3).setEnabled(false); // split
+					if (dealer.getHand().get(0).number.equals(Card.Number.ACE) && human.getInsurance() == 0
+							&& human.getHand().size() == 2 && !human.isHandSplited())
+						buttons.getComponent(4).setEnabled(true); // insurance
 					else
-					buttons.getComponent(4).setEnabled(false); // insurance
-					
+						buttons.getComponent(4).setEnabled(false); // insurance
+
 				}
 				if (dealer.isRoundFinish() || human.getBet() == 0) {
 					buttons.getComponent(5).setEnabled(true); // bet TextField
@@ -240,19 +238,6 @@ public class BlackjackGUI {
 					buttons.getComponent(5).setEnabled(false); // bet TextField
 					buttons.getComponent(6).setEnabled(false); // bet button
 				}
-//				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
 			}
 		});
 
