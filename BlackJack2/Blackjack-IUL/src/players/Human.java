@@ -115,8 +115,9 @@ public class Human extends Player {
 				bet();
 			}
 		}else{
+			JButton betButton = (JButton) getDealer().getGui().getButtons().getComponent(6);
+			getDealer().getGui().getFrame().getRootPane().setDefaultButton(betButton);
 				super.bet();
-				JButton betButton = (JButton) getDealer().getGui().getButtons().getComponent(6);
 				ActionListener betListener = new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
