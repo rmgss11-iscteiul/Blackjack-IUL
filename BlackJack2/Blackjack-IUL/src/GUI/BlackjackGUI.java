@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.io.File;
 import java.util.HashMap;
@@ -61,8 +60,12 @@ public class BlackjackGUI {
 		centerTable.add(humanCardsPanel());
 		int numberOfPlayers = dealer.getPlayers().size();
 		if (numberOfPlayers < 5) {
-			JPanel temp = new JPanel();
+			JPanel temp = new JPanel();////////////////////////////////////////////////////////////////////////////////////////////////////
 			temp.setBackground(new Color(18, 163, 25));
+			ImageIcon audaxIcon = new ImageIcon(imageFolder.getName() + "/audax.jpg");
+			JLabel audaxLabel = new JLabel();
+			audaxLabel.setIcon(audaxIcon);
+			temp.add(audaxLabel);
 			rightTable.add(temp);
 		}
 		if (numberOfPlayers < 4) {

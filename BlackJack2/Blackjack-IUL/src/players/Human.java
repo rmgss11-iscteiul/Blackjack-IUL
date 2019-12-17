@@ -102,23 +102,6 @@ public class Human extends Player {
 	}
 
 	@Override
-<<<<<<< HEAD
-	public void bet() {
-		super.bet();
-		JButton betButton = (JButton) getDealer().getGui().getButtons().getComponent(6);
-		betButton.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String betString= ((JTextField) getDealer().getGui().getButtons().getComponent(5)).getText();
-				try{
-					int betNumber= Integer.parseInt(betString);
-					if(getMoney()-betNumber>=0) {
-						setBet(betNumber);
-						setMoney(getMoney()-getBet());
-					}else {
-						JOptionPane.showMessageDialog(null, "Não pode apostar mais que o dinhiro que tem");
-=======
 	public void bet()  {
 		if(getMoney()==0) {
 			String[] buttons = { "Quit", "Reset Money"};    
@@ -132,9 +115,8 @@ public class Human extends Player {
 				bet();
 			}
 		}else{
-			JButton betButton = (JButton) getDealer().getGui().getButtons().getComponent(6);
-			getDealer().getGui().getFrame().getRootPane().setDefaultButton(betButton);
 				super.bet();
+				JButton betButton = (JButton) getDealer().getGui().getButtons().getComponent(6);
 				ActionListener betListener = new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -161,7 +143,6 @@ public class Human extends Player {
 					try {
 						wait();
 					} catch (Exception e) {
->>>>>>> branch 'master' of https://github.com/rmgss11-iscteiul/Blackjack-IUL.git
 					}
 				}
 				betButton.removeActionListener(betListener);
