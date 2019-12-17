@@ -6,7 +6,7 @@ import cards.Card;
 import cards.Card.Number;
 
 public abstract class Player extends Person {
-
+ 
 	private int money, splitPoints, bet, splitMoney, insurance;
 	private Dealer dealer;
 	private boolean playFinish, splitHandFinish, handSplited;
