@@ -101,7 +101,7 @@ public class Human extends Player {
 	}
 
 	@Override
-	public void bet()  {
+	public void bet() {
 		super.bet();
 		JButton betButton = (JButton) getDealer().getGui().getButtons().getComponent(6);
 		betButton.addActionListener(new ActionListener() {
@@ -111,7 +111,7 @@ public class Human extends Player {
 				String betString= ((JTextField) getDealer().getGui().getButtons().getComponent(5)).getText();
 				try{
 					int betNumber= Integer.parseInt(betString);
-					if(getMoney()-betNumber>0) {
+					if(getMoney()-betNumber>=0) {
 						setBet(betNumber);
 						setMoney(getMoney()-getBet());
 					}else {
