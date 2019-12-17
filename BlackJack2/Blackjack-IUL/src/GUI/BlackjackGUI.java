@@ -1,4 +1,4 @@
- package GUI;
+package GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -189,6 +189,22 @@ public class BlackjackGUI {
 		});
 	}
 
+	public void deleteBotPanel(Bot bot) {
+		SwingUtilities.invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+				dealer.getLosers().add(bot);
+				JPanel panel = botPanels.get(bot);
+				panel.removeAll();
+				panel.revalidate();
+				panel.repaint();
+				botPanels.remove(bot);
+			}
+
+		});
+	}
+
 	public void refreshHuman() {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
@@ -215,12 +231,22 @@ public class BlackjackGUI {
 				} else {
 					buttons.getComponent(0).setEnabled(true); // stand
 					buttons.getComponent(1).setEnabled(true); // hit
-					if (human.getHand().size() == 2)
-						buttons.getComponent(2).setEnabled(true); // doubleBet
-					else
-						buttons.getComponent(2).setEnabled(false); // doubleBet
+
+					if (human.isHandSplited() && !human.isSplitHandFinish()) {
+						if (human.getMoney() - human.getSplitMoney() >= 0 && human.getSplitHand().size() == 2)
+							buttons.getComponent(2).setEnabled(true); // doubleBet
+						else
+							buttons.getComponent(2).setEnabled(false); // doubleBet
+					} else {
+						if (human.getMoney() - human.getBet() >= 0 && human.getHand().size() == 2)
+							buttons.getComponent(2).setEnabled(true); // doubleBet
+						else
+							buttons.getComponent(2).setEnabled(false); // doubleBet
+
+					}
+
 					if (human.getHand().size() == 2 && !human.isplayFinish() && !human.isHandSplited()
-							&& Player.twoEqualCards(human.getHand()) != -1)
+							&& Player.twoEqualCards(human.getHand()) != -1 && human.getMoney()- human.getBet() >= 0)
 						buttons.getComponent(3).setEnabled(true); // split
 					else
 						buttons.getComponent(3).setEnabled(false); // split

@@ -83,36 +83,32 @@ public abstract class Player extends Person {
 
 	public void doubleBet() {
 		if (handSplited && !splitHandFinish) {
-			if (money - splitMoney > 0 && splitHand.size() == 2) {
+			if (money - splitMoney >= 0 && splitHand.size() == 2) {
 				splitMoney *= 2;
 				hit();
-//				try {
-//					TimeUnit.MILLISECONDS.sleep(500);
-//				} catch (InterruptedException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
 				stand();
 			}
 
 		} else {
 
-			if (money - bet > 0 && hand.size() == 2) {
+			if (money - bet >= 0 && hand.size() == 2) {
 				bet *= 2;
 				hit();
-//				try {
-//					TimeUnit.MILLISECONDS.sleep(500);
-//				} catch (InterruptedException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
 				stand();
 			}
 		}
 	}
 
+	public int getSplitMoney() {
+		return splitMoney;
+	}
+
+	public void setSplitMoney(int splitMoney) {
+		this.splitMoney = splitMoney;
+	}
+
 	public void split() {
-		if (twoEqualCards(super.getHand()) != -1 && money - bet > 0 && super.getHand().size() == 2 && !handSplited) {
+		if (twoEqualCards(super.getHand()) != -1 && money - bet >= 0 && super.getHand().size() == 2 && !handSplited) {
 			splitMoney = bet;
 			money -= splitMoney;
 			handSplited = true;
