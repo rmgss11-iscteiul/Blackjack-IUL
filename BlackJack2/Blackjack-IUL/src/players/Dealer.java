@@ -10,27 +10,28 @@ import cards.Deck;
 public class Dealer extends Person{ 
 	private Deck deck;
 	private ArrayList <Player> players;
-//	private int playersinGame;
+	//	private int playersinGame;
 	private BlackjackGUI gui;
 	private Human human;
 	private Card hiddenCard;
-	
+	private boolean roundFinish;
+
 	public Dealer(String name) {
 		super(name);
 		this.deck=new Deck(5); //////////////////////////////possivel variavel
 		players= new ArrayList<Player>();
-//		playersinGame=0;
+		//		playersinGame=0;
 		human=null;
 		hiddenCard = null;
 	}
 
 	public void registerPlayer(Player player) {
 		players.add(player);
-//		playersinGame++;
+		//		playersinGame++;
 	}
-//	public void addLoser() {
-//		playersinGame--;
-//	}
+	//	public void addLoser() {
+	//		playersinGame--;
+	//	}
 
 	public void start() {
 		while(true) { //por condicao de gameOver
@@ -57,6 +58,7 @@ public class Dealer extends Person{
 
 
 	public void startRound() {
+		roundFinish =false;
 		this.newRound();
 		for(Player player: players)
 			player.newRound();
@@ -76,12 +78,20 @@ public class Dealer extends Person{
 				e.printStackTrace();
 			}
 			if(i==0)
-			this.addCard(deck.removeCard());
+				this.addCard(deck.removeCard());
 			if(i==1) {
 				this.hiddenCard = deck.removeCard();
 				refreshDealer();
 			}
 		}
+	}
+
+	public boolean isRoundFinish() {
+		return roundFinish;
+	}
+
+	public void setRoundFinish(boolean roundFinish) {
+		this.roundFinish = roundFinish;
 	}
 
 	public void round() {
@@ -95,17 +105,25 @@ public class Dealer extends Person{
 		super.addCard(card);
 		refreshDealer();
 	}
-	
 	public void endRound() {
-		try {
-			TimeUnit.SECONDS.sleep(1);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		//ainad estiver algum que nao tenha perdido
+		boolean anyPlayerInGame = false;
+		for(Player p: players)  {
+			if(p.ldw==null || (p.splitldw == null && p.isHandSplited())) {
+				anyPlayerInGame = true;
+				break;
+			}
 		}
+		if(anyPlayerInGame) {
+			try {
+				TimeUnit.SECONDS.sleep(1);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			this.addCard(hiddenCard);
 			hiddenCard = null;
-			while(this.getPoints()<17) {
+			while(this.getPoints()<17) { // so precisa de tirar cartas se ainda houver jogadores em jogo
 				try {
 					TimeUnit.SECONDS.sleep(1);
 				} catch (InterruptedException e) {
@@ -118,14 +136,14 @@ public class Dealer extends Person{
 				if(player.ldw==null) {
 					if((super.getPoints() < player.getSplitPoints() || super.getPoints()>21) && player.isSplitHandFinish()) {
 						player.winSplit();//basta um destes
-//						player.endSplit();
+						//						player.endSplit();
 					}else if(super.getPoints()==player.getSplitPoints() && player.isSplitHandFinish()) {
 						player.splitDraw();
-//						player.endSplit();					
+						//						player.endSplit();					
 					}
 					else if(super.getPoints()> player.getSplitPoints() && player.isSplitHandFinish()) {
 						player.splitLose();
-//						player.endSplit();						
+						//						player.endSplit();						
 					}			
 					if((super.getPoints()<player.getPoints() || super.getPoints()>21) && player.isplayFinish()) {
 						player.win();						
@@ -136,9 +154,13 @@ public class Dealer extends Person{
 						player.lose();
 				}
 			}
+		}
+		hiddenCard=null;
+		roundFinish=true;
+		human.refreshHumanGui();
 	}
 
-	public Player getHuman() {
+	public Human getHuman() {
 		if(human == null)
 			for(Player temp: players)
 				if(temp instanceof Human)
@@ -166,13 +188,13 @@ public class Dealer extends Person{
 		this.players = players;
 	}
 
-//	public int getPlayersinGame() {
-//		return playersinGame;
-//	}
-//
-//	public void setPlayersinGame(int playersinGame) {
-//		this.playersinGame = playersinGame;
-//	}
+	//	public int getPlayersinGame() {
+	//		return playersinGame;
+	//	}
+	//
+	//	public void setPlayersinGame(int playersinGame) {
+	//		this.playersinGame = playersinGame;
+	//	}
 
 	public BlackjackGUI getGui() {
 		return gui;

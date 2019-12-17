@@ -9,7 +9,7 @@ import cards.Card.Number;
 
 public abstract class Player extends Person {
 
-	private int money, splitPoints, bet, splitMoney;
+	private int money, splitPoints, bet, splitMoney, insurance;
 	private Dealer dealer;
 	private boolean playFinish, splitHandFinish, handSplited;
 	private ArrayList<Card> splitHand;
@@ -30,10 +30,19 @@ public abstract class Player extends Person {
 		bet = 0;
 		splitMoney = 0;
 		splitPoints = 0;
+		insurance=0;
 		playFinish = false;
 		handSplited = false;
 		splitHandFinish = false;
 		splitHand = new ArrayList<Card>();
+	}
+
+	public int getInsurance() {
+		return insurance;
+	}
+
+	public void setInsurance(int insurance) {
+		this.insurance = insurance;
 	}
 
 	public double initialMoney() {
@@ -193,7 +202,7 @@ public abstract class Player extends Person {
 	 * @param list
 	 * @return 1:two aces; 0:two equal cards; -1:not equal
 	 */
-	private int twoEqualCards(ArrayList<Card> list) {
+	public static int twoEqualCards(ArrayList<Card> list) {
 
 		if (list.get(0).number.id == list.get(1).number.id) {
 			if (list.get(0).number == Number.ACE && list.get(1).number == Number.ACE) {
@@ -245,6 +254,7 @@ public abstract class Player extends Person {
 
 	public void splitLose() {
 		splitldw = loseDrawWin.LOSE;
+		splitHandFinish = true;
 		splitMoney = 0;
 	}
 

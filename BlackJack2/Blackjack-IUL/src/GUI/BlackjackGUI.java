@@ -24,6 +24,7 @@ import javax.swing.WindowConstants;
 import cards.Card;
 import players.Bot;
 import players.Dealer;
+import players.Human;
 import players.Player;
 
 public class BlackjackGUI {
@@ -48,6 +49,7 @@ public class BlackjackGUI {
 		frame.setMinimumSize(new Dimension(802, 451));
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
+		refreshButtons(dealer.getHuman());
 	}
 
 	private void addFrameContent() {
@@ -97,16 +99,16 @@ public class BlackjackGUI {
 	}
 
 	private JPanel humanCardsPanel() {
-		humanCardsPanel =  new JPanel();
-		humanCardsPanel.setLayout(new BoxLayout(humanCardsPanel,BoxLayout.Y_AXIS));
+		humanCardsPanel = new JPanel();
+		humanCardsPanel.setLayout(new BoxLayout(humanCardsPanel, BoxLayout.Y_AXIS));
 		JLabel splitldw = new JLabel("", SwingConstants.CENTER);
 		JPanel split = new JPanel();
 		JLabel ldw = new JLabel("", SwingConstants.CENTER);
 		JPanel cards = new JPanel();
 		cards.setMinimumSize(new Dimension(cards.getMinimumSize().width, 15));
 		split.setMinimumSize(new Dimension(cards.getMinimumSize().width, 15));
-		cards.setBackground(new Color(18,163,25));
-		split.setBackground(new Color(18,163,25));
+		cards.setBackground(new Color(18, 163, 25));
+		split.setBackground(new Color(18, 163, 25));
 		humanCardsPanel.setBackground(new Color(18, 163, 25));
 		humanCardsPanel.add(splitldw);
 		humanCardsPanel.add(split);// splitCards
@@ -137,26 +139,27 @@ public class BlackjackGUI {
 		JLabel name = new JLabel("Name: " + bot.toString());
 		JLabel money = new JLabel("Money: " + bot.getMoney());
 		JLabel bet = new JLabel("Bet: " + bot.getBet());
-//		JLabel insurance = new JLabel("Insurance: "); // TODO boolean insurance ou int
+		// JLabel insurance = new JLabel("Insurance: "); // TODO boolean insurance ou
+		// int
 		JLabel points = new JLabel("Points: " + bot.getPoints());
 		JPanel cards = new JPanel();
 		JLabel ldw = new JLabel();
-		//		name.setMinimumSize(new Dimension(cards.getMinimumSize().width,15));	
-		//		money.setMinimumSize(new Dimension(cards.getMinimumSize().width, 15));
-		//		bet.setMinimumSize(new Dimension(cards.getMinimumSize().width,15));
-		//		insurance.setMinimumSize(new Dimension(cards.getMinimumSize().width, 15));
-		//		points.setMinimumSize(new Dimension(cards.getMinimumSize().width, 15));
+		// name.setMinimumSize(new Dimension(cards.getMinimumSize().width,15));
+		// money.setMinimumSize(new Dimension(cards.getMinimumSize().width, 15));
+		// bet.setMinimumSize(new Dimension(cards.getMinimumSize().width,15));
+		// insurance.setMinimumSize(new Dimension(cards.getMinimumSize().width, 15));
+		// points.setMinimumSize(new Dimension(cards.getMinimumSize().width, 15));
 		cards.setMinimumSize(new Dimension(cards.getMinimumSize().width, 15)); // fixar a info do bot
-		//		ldw.setMinimumSize(new Dimension(cards.getMinimumSize().width, 15));
+		// ldw.setMinimumSize(new Dimension(cards.getMinimumSize().width, 15));
 		name.setHorizontalAlignment(SwingConstants.LEFT);
 		money.setHorizontalAlignment(SwingConstants.LEFT);
-//		insurance.setHorizontalAlignment(SwingConstants.LEFT);
+		// insurance.setHorizontalAlignment(SwingConstants.LEFT);
 		points.setHorizontalAlignment(SwingConstants.LEFT);
 		cards.setBackground(new Color(18, 163, 25));
 		botPanel.add(name);
 		botPanel.add(money);
 		botPanel.add(bet);
-//		botPanel.add(insurance);
+		// botPanel.add(insurance);
 		botPanel.add(points);
 		botPanel.add(ldw);
 		botPanel.add(cards);
@@ -183,7 +186,8 @@ public class BlackjackGUI {
 				JPanel panel = botPanels.get(player);
 				((JLabel) panel.getComponent(1)).setText("Money: " + player.getMoney());// dinheiro
 				((JLabel) panel.getComponent(2)).setText("Bet: " + player.getBet());// aposta
-//				((JLabel) panel.getComponent(3)).setText("Insurance: "); // TODO boolean insurance ou int);//seguro
+				// ((JLabel) panel.getComponent(3)).setText("Insurance: "); // TODO boolean
+				// insurance ou int);//seguro
 				((JLabel) panel.getComponent(3)).setText("Points: " + player.getPoints());
 				JPanel cardsPanel = (JPanel) panel.getComponent(5);
 				if (player.ldw != null)
@@ -208,9 +212,108 @@ public class BlackjackGUI {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				Player human = dealer.getHuman();
+				Human human = dealer.getHuman();
+				refreshInfo(human);
+				refreshButtons(human);
+				refreshHumanCards(human);
+			}
+		});
+	}
+
+	private void refreshButtons(Human human) {
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				
+				if (human.isplayFinish() && (human.isSplitHandFinish() && human.isHandSplited()) || human.getBet() == 0) {
+					buttons.getComponent(0).setEnabled(false); // stand
+					buttons.getComponent(1).setEnabled(false); // hit
+					buttons.getComponent(2).setEnabled(false); // doubleBet
+					buttons.getComponent(4).setEnabled(false);
+				} else {
+					buttons.getComponent(0).setEnabled(true); // stand
+					buttons.getComponent(1).setEnabled(true); // hit
+					if (human.getHand().size() == 2)
+						buttons.getComponent(2).setEnabled(true); // doubleBet
+					else
+						buttons.getComponent(2).setEnabled(false); // doubleBet
+				}
+				if (human.getHand().size() == 2 && !human.isplayFinish() && !human.isHandSplited()
+						&& Player.twoEqualCards(human.getHand()) != -1)
+					buttons.getComponent(3).setEnabled(true); // split
+				else
+					buttons.getComponent(3).setEnabled(false); // split
+
+				if (dealer.getHand().get(0).number.equals(Card.Number.ACE) && human.getInsurance() == 0
+						&& !dealer.getHand().isEmpty() && human.getHand().size() == 2 && !human.isHandSplited())
+					buttons.getComponent(4).setEnabled(true); // insurance
+				else
+					buttons.getComponent(4).setEnabled(false); // insurance
+
+				if (dealer.isRoundFinish() || human.getBet() == 0) {
+					buttons.getComponent(5).setEnabled(true); // bet TextField
+					buttons.getComponent(6).setEnabled(true); // bet button
+				} else {
+					buttons.getComponent(5).setEnabled(false); // bet TextField
+					buttons.getComponent(6).setEnabled(false); // bet button
+				}
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+			}
+		});
+
+	}
+
+	private void refreshHumanCards(Human human) {
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				JPanel cardsHuman = (JPanel) humanCardsPanel.getComponent(3);// cartas
+				cardsHuman.removeAll();
+				JPanel splitHuman = (JPanel) humanCardsPanel.getComponent(1);// spliHand
+				splitHuman.removeAll();
+				for (Card card : human.getSplitHand()) {
+					ImageIcon cardImage = new ImageIcon(imageFolder.getName() + "/" + card.toString() + ".png");
+					JLabel cardLabel = new JLabel();
+					cardLabel.setIcon(cardImage);
+					splitHuman.add(cardLabel);
+					// System.out.println(human.getSplitHand() + "Human split");
+				}
+				for (Card card : human.getHand()) {
+					ImageIcon cardImage = new ImageIcon(imageFolder.getName() + "/" + card.toString() + ".png");
+					JLabel cardLabel = new JLabel();
+					cardLabel.setIcon(cardImage);
+					cardsHuman.add(cardLabel);
+					// System.out.println(human.getHand() + " Human hand");
+				}
+				cardsHuman.revalidate();
+				cardsHuman.repaint();
+				splitHuman.revalidate();
+				splitHuman.repaint();
+			}
+		});
+	}
+
+	private void refreshInfo(Human human) {
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
 				((JLabel) info.getComponent(1)).setText("Money: " + human.getMoney());// money
 				((JLabel) info.getComponent(2)).setText("Insurance: ");// TODO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+				info.getComponent(2).setVisible(false); // insurance label
+				if (human.getInsurance() != 0)
+					info.getComponent(2).setVisible(true); // insurance label
 				((JLabel) info.getComponent(3)).setText("Points: " + human.getPoints());// points
 				((JLabel) info.getComponent(4)).setText("Bet: " + human.getBet());// points
 				((JLabel) info.getComponent(5)).setText("Split Points: " + human.getSplitPoints());
@@ -224,28 +327,6 @@ public class BlackjackGUI {
 				} else {
 					((JLabel) humanCardsPanel.getComponent(2)).setText(human.ldw.toString());
 				}
-				JPanel cardsHuman = (JPanel) humanCardsPanel.getComponent(3);// cartas
-				cardsHuman.removeAll();
-				JPanel splitHuman = (JPanel) humanCardsPanel.getComponent(1);// spliHand
-				splitHuman.removeAll();
-				for (Card card : human.getSplitHand()) {
-					ImageIcon cardImage = new ImageIcon(imageFolder.getName() + "/" + card.toString() + ".png");
-					JLabel cardLabel = new JLabel();
-					cardLabel.setIcon(cardImage);
-					splitHuman.add(cardLabel);
-//					System.out.println(human.getSplitHand() + "Human split");
-				}
-				for (Card card : human.getHand()) {
-					ImageIcon cardImage = new ImageIcon(imageFolder.getName() + "/" + card.toString() + ".png");
-					JLabel cardLabel = new JLabel();
-					cardLabel.setIcon(cardImage);
-					cardsHuman.add(cardLabel);
-//					System.out.println(human.getHand() + " Human hand");
-				}
-				cardsHuman.revalidate();
-				cardsHuman.repaint();
-				splitHuman.revalidate();
-				splitHuman.repaint();
 			}
 		});
 	}
@@ -301,6 +382,7 @@ public class BlackjackGUI {
 		JLabel nameLabel = new JLabel("Name: " + human.toString());
 		JLabel moneyLabel = new JLabel("Money: " + human.getMoney());
 		JLabel insuranceLabel = new JLabel("Insurance: ");///////// TODO
+		insuranceLabel.setVisible(false);
 		JLabel pointsLabel = new JLabel("Points: " + human.getPoints());
 		JLabel bet = new JLabel("Bet: " + human.getBet());
 		JLabel splitPointsLabel = new JLabel("Split Points: " + human.getSplitPoints());
