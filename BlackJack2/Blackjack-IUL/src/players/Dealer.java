@@ -1,6 +1,7 @@
-package players;
+ package players;
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import GUI.BlackjackGUI;
@@ -18,13 +19,24 @@ public class Dealer extends Person{
 
 	public Dealer(String name) {
 		super(name);
-		this.deck=new Deck(5); //////////////////////////////possivel variavel
+		this.deck=new Deck(numberOfDecks());
 		players= new ArrayList<Player>();
 		//		playersinGame=0;
 		human=null;
 		hiddenCard = null;
 	}
 
+	public int numberOfDecks() {
+		Random random= new Random();
+		double r = random.nextDouble();
+		if(r<0.1) {return 1;}
+		if(r>0.1 && r < 0.3) {return 2;}
+		if(r>0.3 && r < 0.7) {return 4;}
+		if(r>0.7 && r < 0.9) {return 6;}
+		else {return 8;}
+	}
+
+	
 	public void registerPlayer(Player player) {
 		players.add(player);
 		//		playersinGame++;

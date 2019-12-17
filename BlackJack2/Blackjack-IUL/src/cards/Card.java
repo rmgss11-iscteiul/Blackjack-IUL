@@ -1,4 +1,4 @@
-package cards;
+ package cards;
 
 public class Card {
 	public Suit suit;
