@@ -8,7 +8,7 @@ public abstract class Person {
 	ArrayList<Card> hand;
 	private int points;
 	private String name;
-	boolean blackjack;
+	boolean blackjack, splitBlackJack;
 
 	Person(String name) {
 		this.name = name;

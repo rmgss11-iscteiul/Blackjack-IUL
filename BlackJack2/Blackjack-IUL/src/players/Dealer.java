@@ -159,34 +159,51 @@ public class Dealer extends Person {
 			}
 			for (Player player : players) {
 				if (player.ldw == null || player.isHandSplited()) {
-					if(player.getSplitPoints()<22) {
-						if ((super.getPoints() < player.getSplitPoints() || super.getPoints() > 21)
-								&& player.isSplitHandFinish()) {
-							player.winSplit();// basta um destes
-							// player.endSplit();
-						} else if (super.getPoints() == player.getSplitPoints() && player.isSplitHandFinish()) {
-							player.splitDraw();
-							// player.endSplit();
-						} else if (super.getPoints() > player.getSplitPoints() && player.isSplitHandFinish()) {
-							player.splitLose();
-							// player.endSplit();
-						}						
-					}
-					if ((super.getPoints() < player.getPoints() || super.getPoints() > 21) && player.isplayFinish())
-						player.win();
-					else if (super.getPoints() == player.getPoints() && player.isplayFinish())
+
+					// Testa BlackJacks
+					if (super.blackjack == true || player.blackjack == true) {
+						if (super.blackjack == true && player.blackjack == true)
 							player.draw();
-					else if (super.getPoints() > player.getPoints() && player.isplayFinish())
-						player.lose();
+						else if (super.blackjack == true && player.blackjack == false)
+							player.lose();
+						else if (super.blackjack == false && player.blackjack == true)
+							player.win();
+
+					} else if (super.blackjack == true || player.splitBlackJack == true) {
+						if (super.blackjack == true && player.splitBlackJack == true)
+							player.draw();
+						else if (super.blackjack == true && player.splitBlackJack == false)
+							player.lose();
+						else if (super.blackjack == false && player.splitBlackJack == true)
+							player.win();
 					
 					
-					//Testa BlackJacks
-					if (super.blackjack == true && player.blackjack==true)
-						player.draw();
-					else if(super.blackjack==true && player.blackjack==false)
-						player.lose();
-					else if(super.blackjack==false && player.blackjack==true)
-						player.win();
+					} else {
+						
+						
+						// Testa SplitPoints
+						if (player.getSplitPoints() < 22) {
+							if ((super.getPoints() < player.getSplitPoints() || super.getPoints() > 21)
+									&& player.isSplitHandFinish()) {
+								player.winSplit();// basta um destes
+								// player.endSplit();
+							} else if (super.getPoints() == player.getSplitPoints() && player.isSplitHandFinish()) {
+								player.splitDraw();
+								// player.endSplit();
+							} else if (super.getPoints() > player.getSplitPoints() && player.isSplitHandFinish()) {
+								player.splitLose();
+								// player.endSplit();
+							}
+						}
+
+						// Testa Points
+						if ((super.getPoints() < player.getPoints() || super.getPoints() > 21) && player.isplayFinish())
+							player.win();
+						else if (super.getPoints() == player.getPoints() && player.isplayFinish())
+							player.draw();
+						else if (super.getPoints() > player.getPoints() && player.isplayFinish())
+							player.lose();
+					}
 				}
 			}
 		}
@@ -195,7 +212,7 @@ public class Dealer extends Person {
 		roundFinish = true;
 		human.refreshHumanGui();
 	}
-	
+
 	public void removeLosers() {
 		players.removeAll(losers);
 	}

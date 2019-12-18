@@ -84,6 +84,7 @@ public abstract class Player extends Person {
 	public void doubleBet() {
 		if (handSplited && !splitHandFinish) {
 			if (money - splitMoney >= 0 && splitHand.size() == 2) {
+				money -= splitMoney;
 				splitMoney *= 2;
 				hit();
 				stand();
@@ -92,6 +93,7 @@ public abstract class Player extends Person {
 		} else {
 
 			if (money - bet >= 0 && hand.size() == 2) {
+				money -= bet;
 				bet *= 2;
 				hit();
 				stand();
@@ -186,8 +188,8 @@ public abstract class Player extends Person {
 				}
 			}
 		}
-		if (hand.size() == 2 && splitPoints == 21)
-			blackjack = true;
+		if (splitHand.size() == 2 && splitPoints == 21)
+			super.splitBlackJack = true;
 	}
 
 	/**
@@ -258,6 +260,7 @@ public abstract class Player extends Person {
 		handSplited = false;
 		splitldw = null;
 		blackjack=false;
+		splitBlackJack=false;
 		super.clearHand();
 		playFinish = false;
 		ldw = null;
