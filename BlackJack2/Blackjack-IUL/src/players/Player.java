@@ -63,14 +63,14 @@ public abstract class Player extends Person {
 			// sleep x segundos
 			splitHand.add(dealer.deal());
 			countSplitPoints(splitHand);
-			if (splitPoints > 21) {
-				// splitHandFinish=true;
-				splitLose();
-			}
+//			if (splitPoints > 21) {
+//				// splitHandFinish=true;
+//				splitLose();
+//			}
 		} else {
 			super.addCard(dealer.deal());
-			if (super.getPoints() > 21)
-				lose();
+//			if (super.getPoints() > 21)
+//				lose();
 		}
 	}
 
@@ -127,14 +127,14 @@ public abstract class Player extends Person {
 						|| splitHand.get(1).number == Number.QUEEN || splitHand.get(1).number == Number.KING) {
 					// money += splitMoney * 2;
 					splitHandFinish = true;
-					winSplit();
+//					winSplit();
 					// SINTO QUE FALTAM AQUI COISAS
 				}
 				if (super.getHand().get(1).number == Number.TEN || super.getHand().get(1).number == Number.JACK
 						|| super.getHand().get(1).number == Number.QUEEN
 						|| super.getHand().get(1).number == Number.KING) {
 					playFinish = true;
-					win();
+//					win();
 				}
 				// Acabar a rounda para a splitHand
 				countSplitPoints(splitHand);
@@ -191,7 +191,17 @@ public abstract class Player extends Person {
 		if (splitHand.size() == 2 && splitPoints == 21)
 			super.splitBlackJack = true;
 	}
+	
+	public void insurance() {
+		if(dealer.getHand().get(0).number==Number.ACE && this.getHand().size()==2) {
+			money -= Math.round(bet/2);
+			insurance = Math.round(bet/2);
+		}
+	}
 
+	public void acquireInsurance() {
+		money += 2*insurance;
+	}
 	/**
 	 * 
 	 * @param list
@@ -265,6 +275,7 @@ public abstract class Player extends Person {
 		playFinish = false;
 		ldw = null;
 		splitPoints=0;
+		insurance=0;
 	}
 
 	// public void endSplit() {

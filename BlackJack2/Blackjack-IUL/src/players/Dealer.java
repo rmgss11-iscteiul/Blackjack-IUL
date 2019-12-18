@@ -158,31 +158,31 @@ public class Dealer extends Person {
 				addCard(deck.removeCard());
 			}
 			for (Player player : players) {
-				if (player.ldw == null || player.isHandSplited()) {
+				if (player.ldw == null || player.isHandSplited() || player.getInsurance()!=0) {
 
 					// Testa BlackJacks
 					if (super.blackjack == true || player.blackjack == true) {
-						if (super.blackjack == true && player.blackjack == true)
-							player.draw();
-						else if (super.blackjack == true && player.blackjack == false)
-							player.lose();
+						if (super.blackjack == true && player.blackjack == true) {
+							player.draw(); player.acquireInsurance();}
+						else if (super.blackjack == true && player.blackjack == false) {
+							player.lose(); player.acquireInsurance();}
 						else if (super.blackjack == false && player.blackjack == true)
 							player.win();
 
-					} else if (super.blackjack == true || player.splitBlackJack == true) {
-						if (super.blackjack == true && player.splitBlackJack == true)
-							player.draw();
-						else if (super.blackjack == true && player.splitBlackJack == false)
-							player.lose();
+					}if ((super.blackjack == true || player.splitBlackJack == true) && player.isHandSplited()) {
+						if (super.blackjack == true && player.splitBlackJack == true) {
+							player.splitDraw();player.acquireInsurance();}
+						else if (super.blackjack == true && player.splitBlackJack == false) {
+							player.splitLose();player.acquireInsurance();}
 						else if (super.blackjack == false && player.splitBlackJack == true)
-							player.win();
+							player.winSplit();
 					
 					
 					} else {
 						
 						
 						// Testa SplitPoints
-						if (player.getSplitPoints() < 22) {
+						if (player.getSplitPoints() < 22  && player.splitBlackJack==false && player.isHandSplited()) {
 							if ((super.getPoints() < player.getSplitPoints() || super.getPoints() > 21)
 									&& player.isSplitHandFinish()) {
 								player.winSplit();// basta um destes
@@ -197,12 +197,15 @@ public class Dealer extends Person {
 						}
 
 						// Testa Points
+						if(player.blackjack==false) {
 						if ((super.getPoints() < player.getPoints() || super.getPoints() > 21) && player.isplayFinish())
 							player.win();
 						else if (super.getPoints() == player.getPoints() && player.isplayFinish())
 							player.draw();
 						else if (super.getPoints() > player.getPoints() && player.isplayFinish())
 							player.lose();
+					
+						}
 					}
 				}
 			}

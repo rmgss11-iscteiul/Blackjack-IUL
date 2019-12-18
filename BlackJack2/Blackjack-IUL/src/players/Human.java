@@ -33,8 +33,7 @@ public class Human extends Player {
 				split();
 			break;
 			case("Insurance"):
-				//				insurance();
-				System.out.println("Botão ainda não foi implementado");
+				insurance();
 			break;
 			}
 
