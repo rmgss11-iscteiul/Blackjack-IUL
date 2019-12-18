@@ -2,6 +2,8 @@ package players;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
+
 import cards.Card;
 import cards.Card.Number;
 
@@ -63,14 +65,14 @@ public abstract class Player extends Person {
 			// sleep x segundos
 			splitHand.add(dealer.deal());
 			countSplitPoints(splitHand);
-//			if (splitPoints > 21) {
-//				// splitHandFinish=true;
+			if (splitPoints > 21) 
+				splitHandFinish=true;
 //				splitLose();
 //			}
 		} else {
 			super.addCard(dealer.deal());
-//			if (super.getPoints() > 21)
-//				lose();
+			if (super.getPoints() > 21)
+				playFinish=true;
 		}
 	}
 
@@ -125,16 +127,12 @@ public abstract class Player extends Person {
 //				}
 				if (splitHand.get(1).number == Number.TEN || splitHand.get(1).number == Number.JACK
 						|| splitHand.get(1).number == Number.QUEEN || splitHand.get(1).number == Number.KING) {
-					// money += splitMoney * 2;
 					splitHandFinish = true;
-//					winSplit();
-					// SINTO QUE FALTAM AQUI COISAS
 				}
 				if (super.getHand().get(1).number == Number.TEN || super.getHand().get(1).number == Number.JACK
 						|| super.getHand().get(1).number == Number.QUEEN
 						|| super.getHand().get(1).number == Number.KING) {
 					playFinish = true;
-//					win();
 				}
 				// Acabar a rounda para a splitHand
 				countSplitPoints(splitHand);
@@ -304,15 +302,7 @@ public abstract class Player extends Person {
 	public boolean isSplitHandFinish() {
 		return splitHandFinish;
 	}
-
-	// public boolean isSplitHandCheck() {
-	// return splitHandCheck;
-	// }
-
-	// public void setEndPlay(boolean endPlay) {
-	// this.playFinish = endPlay;
-	// }
-
+	
 	public int getBet() {
 		return bet;
 	}

@@ -13,13 +13,13 @@ public class Deck {
 		for (int i = 0; i < decks; i++) {
 			for (Card.Suit suit : Card.Suit.values()) {
 				for (Card.Number number : Card.Number.values()) {
-					if(i%2==0)
-						cards.add(new Card( Number.ACE,suit));
-					else
-						cards.add(new Card(Number.TEN,suit));
+//					if(i%2==0)
+//						cards.add(new Card( Number.ACE,suit));
+//					else
+//						cards.add(new Card(Number.TEN,suit));
 //				}
 					
-//						cards.add(new Card(number, suit));					
+						cards.add(new Card(number, suit));					
 //					cards.add(new Card( Number.FIVE,suit));
 //					cards.add(new Card( Number.TWO, suit));
 				}

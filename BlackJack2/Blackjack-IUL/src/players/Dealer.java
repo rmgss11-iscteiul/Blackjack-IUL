@@ -206,6 +206,10 @@ public class Dealer extends Person {
 							player.lose();
 					
 						}
+						if(player.getPoints()>21)
+							player.lose();
+						if(player.getSplitPoints()>21)
+							player.splitLose();
 					}
 				}
 			}
