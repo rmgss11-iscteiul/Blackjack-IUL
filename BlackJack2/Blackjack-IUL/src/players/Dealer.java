@@ -12,7 +12,7 @@ public class Dealer extends Person {
 	private Deck deck;
 	private ArrayList<Player> players;
 	private ArrayList<Player> losers;
-	// private int playersinGame;
+	 private int playersinGame;
 	private BlackjackGUI gui;
 	private Human human;
 	private Card hiddenCard;
@@ -23,7 +23,7 @@ public class Dealer extends Person {
 		this.deck = new Deck(numberOfDecks());
 		players = new ArrayList<Player>();
 		losers = new ArrayList<Player>();
-		// playersinGame=0;
+		 playersinGame=0;
 		human = null;
 		hiddenCard = null;
 	}
@@ -49,11 +49,11 @@ public class Dealer extends Person {
 
 	public void registerPlayer(Player player) {
 		players.add(player);
-		// playersinGame++;
+		 playersinGame++;
 	}
-	// public void addLoser() {
-	// playersinGame--;
-	// }
+	 public void addLoser() {
+	 playersinGame--;
+	 }
 
 	public void start() {
 		while (true) { // por condicao de gameOver
@@ -139,6 +139,7 @@ public class Dealer extends Person {
 				break;
 			}
 		}
+		
 		if (anyPlayerInGame) {
 			try {
 				TimeUnit.SECONDS.sleep(1);
@@ -158,31 +159,34 @@ public class Dealer extends Person {
 				addCard(deck.removeCard());
 			}
 			for (Player player : players) {
-				if (player.ldw == null || player.isHandSplited() || player.getInsurance()!=0) {
+				if (player.ldw == null || player.isHandSplited() || player.getInsurance() != 0) {
 
 					// Testa BlackJacks
 					if (super.blackjack == true || player.blackjack == true) {
 						if (super.blackjack == true && player.blackjack == true) {
-							player.draw(); player.acquireInsurance();}
-						else if (super.blackjack == true && player.blackjack == false) {
-							player.lose(); player.acquireInsurance();}
-						else if (super.blackjack == false && player.blackjack == true)
+							player.draw();
+							player.acquireInsurance();
+						} else if (super.blackjack == true && player.blackjack == false) {
+							player.lose();
+							player.acquireInsurance();
+						} else if (super.blackjack == false && player.blackjack == true)
 							player.win();
 
-					}if ((super.blackjack == true || player.splitBlackJack == true) && player.isHandSplited()) {
+					}
+					if ((super.blackjack == true || player.splitBlackJack == true) && player.isHandSplited()) {
 						if (super.blackjack == true && player.splitBlackJack == true) {
-							player.splitDraw();player.acquireInsurance();}
-						else if (super.blackjack == true && player.splitBlackJack == false) {
-							player.splitLose();player.acquireInsurance();}
-						else if (super.blackjack == false && player.splitBlackJack == true)
+							player.splitDraw();
+							player.acquireInsurance();
+						} else if (super.blackjack == true && player.splitBlackJack == false) {
+							player.splitLose();
+							player.acquireInsurance();
+						} else if (super.blackjack == false && player.splitBlackJack == true)
 							player.winSplit();
-					
-					
+
 					} else {
-						
-						
+
 						// Testa SplitPoints
-						if (player.getSplitPoints() < 22  && player.splitBlackJack==false && player.isHandSplited()) {
+						if (player.getSplitPoints() < 22 && player.splitBlackJack == false && player.isHandSplited()) {
 							if ((super.getPoints() < player.getSplitPoints() || super.getPoints() > 21)
 									&& player.isSplitHandFinish()) {
 								player.winSplit();// basta um destes
@@ -197,18 +201,19 @@ public class Dealer extends Person {
 						}
 
 						// Testa Points
-						if(player.blackjack==false) {
-						if ((super.getPoints() < player.getPoints() || super.getPoints() > 21) && player.isplayFinish())
-							player.win();
-						else if (super.getPoints() == player.getPoints() && player.isplayFinish())
-							player.draw();
-						else if (super.getPoints() > player.getPoints() && player.isplayFinish())
-							player.lose();
-					
+						if (player.blackjack == false) {
+							if ((super.getPoints() < player.getPoints() || super.getPoints() > 21)
+									&& player.isplayFinish())
+								player.win();
+							else if (super.getPoints() == player.getPoints() && player.isplayFinish())
+								player.draw();
+							else if (super.getPoints() > player.getPoints() && player.isplayFinish())
+								player.lose();
+
 						}
-						if(player.getPoints()>21)
+						if (player.getPoints() > 21)
 							player.lose();
-						if(player.getSplitPoints()>21)
+						if (player.getSplitPoints() > 21)
 							player.splitLose();
 					}
 				}
@@ -252,13 +257,13 @@ public class Dealer extends Person {
 		this.players = players;
 	}
 
-	// public int getPlayersinGame() {
-	// return playersinGame;
-	// }
-	//
-	// public void setPlayersinGame(int playersinGame) {
-	// this.playersinGame = playersinGame;
-	// }
+	 public int getPlayersinGame() {
+	 return playersinGame;
+	 }
+	
+	 public void setPlayersinGame(int playersinGame) {
+	 this.playersinGame = playersinGame;
+	 }
 
 	public BlackjackGUI getGui() {
 		return gui;

@@ -8,7 +8,7 @@ import cards.Card;
 import cards.Card.Number;
 
 public abstract class Player extends Person {
- 
+
 	private int money, splitPoints, bet, splitMoney, insurance;
 	private Dealer dealer;
 	private boolean playFinish, splitHandFinish, handSplited;
@@ -67,12 +67,14 @@ public abstract class Player extends Person {
 			countSplitPoints(splitHand);
 			if (splitPoints > 21) 
 				splitHandFinish=true;
-//				splitLose();
-//			}
+			splitLose();
+			//			}
 		} else {
 			super.addCard(dealer.deal());
-			if (super.getPoints() > 21)
+			if (super.getPoints() > 21) {
 				playFinish=true;
+				lose();
+			}
 		}
 	}
 
@@ -118,13 +120,13 @@ public abstract class Player extends Person {
 			handSplited = true;
 			if (twoEqualCards(super.getHand()) == 1) {
 				splitHand.add(super.getHand().remove(0));
-//				try {
-//					TimeUnit.SECONDS.sleep(1);
-					splitHand.add(dealer.deal());
-//					TimeUnit.SECONDS.sleep(1);
-					super.addCard(dealer.deal());
-//				} catch (InterruptedException e) {
-//				}
+				//				try {
+				//					TimeUnit.SECONDS.sleep(1);
+				splitHand.add(dealer.deal());
+				//					TimeUnit.SECONDS.sleep(1);
+				super.addCard(dealer.deal());
+				//				} catch (InterruptedException e) {
+				//				}
 				if (splitHand.get(1).number == Number.TEN || splitHand.get(1).number == Number.JACK
 						|| splitHand.get(1).number == Number.QUEEN || splitHand.get(1).number == Number.KING) {
 					splitHandFinish = true;
@@ -143,19 +145,19 @@ public abstract class Player extends Person {
 			} else {
 				Card c = super.getHand().remove(0);
 				addSplitedCard(c);
-//				try {
-//					TimeUnit.SECONDS.sleep(1);
-//				} catch (InterruptedException e) {
-//
-//				}
+				//				try {
+				//					TimeUnit.SECONDS.sleep(1);
+				//				} catch (InterruptedException e) {
+				//
+				//				}
 				addSplitedCard(dealer.deal());
 				countSplitPoints(splitHand);
-//				try {
-//					TimeUnit.SECONDS.sleep(1);
-//				} catch (InterruptedException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
+				//				try {
+				//					TimeUnit.SECONDS.sleep(1);
+				//				} catch (InterruptedException e) {
+				//					// TODO Auto-generated catch block
+				//					e.printStackTrace();
+				//				}
 				super.addCard(dealer.deal());
 			}
 		}
@@ -189,7 +191,7 @@ public abstract class Player extends Person {
 		if (splitHand.size() == 2 && splitPoints == 21)
 			super.splitBlackJack = true;
 	}
-	
+
 	public void insurance() {
 		if(dealer.getHand().get(0).number==Number.ACE && this.getHand().size()==2) {
 			money -= Math.round(bet/2);
@@ -251,7 +253,7 @@ public abstract class Player extends Person {
 
 	public void lose() {
 		this.ldw = loseDrawWin.LOSE;
-		// dealer.addLoser();
+		dealer.addLoser();
 		bet = 0;
 	}
 
@@ -302,7 +304,7 @@ public abstract class Player extends Person {
 	public boolean isSplitHandFinish() {
 		return splitHandFinish;
 	}
-	
+
 	public int getBet() {
 		return bet;
 	}
