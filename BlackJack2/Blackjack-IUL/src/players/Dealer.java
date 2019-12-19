@@ -186,13 +186,10 @@ public class Dealer extends Person {
 							if ((super.getPoints() < player.getSplitPoints() || super.getPoints() > 21)
 									&& player.isSplitHandFinish()) {
 								player.winSplit();// basta um destes
-								// player.endSplit();
 							} else if (super.getPoints() == player.getSplitPoints() && player.isSplitHandFinish()) {
 								player.splitDraw();
-								// player.endSplit();
 							} else if (super.getPoints() > player.getSplitPoints() && player.isSplitHandFinish()) {
 								player.splitLose();
-								// player.endSplit();
 							}
 						}
 

@@ -3,8 +3,6 @@ package players;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
-import javax.swing.JPanel;
-
 import cards.Card;
 
 public class Bot extends Player {
@@ -60,7 +58,6 @@ public class Bot extends Player {
 	@Override
 	public void play() {
 		super.play();
-		// this.setBet(betMoney());
 		while (!isplayFinish() && ldw == null) {
 			try {
 				TimeUnit.MILLISECONDS.sleep((int) (sleepTime() * 1000));
