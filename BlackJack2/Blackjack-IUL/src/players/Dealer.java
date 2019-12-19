@@ -12,7 +12,7 @@ public class Dealer extends Person {
 	private Deck deck;
 	private ArrayList<Player> players;
 	private ArrayList<Player> losers;
-	// private int playersinGame;
+	 private int playersinGame;
 	private BlackjackGUI gui;
 	private Human human;
 	private Card hiddenCard;
@@ -23,7 +23,7 @@ public class Dealer extends Person {
 		this.deck = new Deck(numberOfDecks());
 		players = new ArrayList<Player>();
 		losers = new ArrayList<Player>();
-		// playersinGame=0;
+		 playersinGame=0;
 		human = null;
 		hiddenCard = null;
 	}
@@ -49,11 +49,11 @@ public class Dealer extends Person {
 
 	public void registerPlayer(Player player) {
 		players.add(player);
-		// playersinGame++;
+		 playersinGame++;
 	}
-	// public void addLoser() {
-	// playersinGame--;
-	// }
+	 public void addLoser() {
+	 playersinGame--;
+	 }
 
 	public void start() {
 		while (true) { // por condicao de gameOver
@@ -242,13 +242,13 @@ public class Dealer extends Person {
 		this.players = players;
 	}
 
-	// public int getPlayersinGame() {
-	// return playersinGame;
-	// }
-	//
-	// public void setPlayersinGame(int playersinGame) {
-	// this.playersinGame = playersinGame;
-	// }
+	 public int getPlayersinGame() {
+	 return playersinGame;
+	 }
+	
+	 public void setPlayersinGame(int playersinGame) {
+	 this.playersinGame = playersinGame;
+	 }
 
 	public BlackjackGUI getGui() {
 		return gui;

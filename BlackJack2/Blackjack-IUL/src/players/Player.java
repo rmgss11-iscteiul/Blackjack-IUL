@@ -243,7 +243,7 @@ public abstract class Player extends Person {
 
 	public void lose() {
 		this.ldw = loseDrawWin.LOSE;
-		// dealer.addLoser();
+		 dealer.addLoser();
 		bet = 0;
 	}
 
